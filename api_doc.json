@@ -1,0 +1,702 @@
+FORMAT: A1
+HOST: https://api-gateway-01.centene.com
+
+# EXTERNAL API REQUESTS
+
+# Group TIN CALCULATION SERVICE
+
+## Get Provider By Tin [/provRTR/v2/graph]
+
+### GET PROVIDER BY TIN [POST]
+
++ Parameters
+    + tin (string, required)
+    + page (number, required)
+    + includeLocation (boolean, required)
+    + pageCount (number, optional)
+
++ Request 
+
+    { 
+        findProviderMatching(tin: $tin, includeLocations: $includeLocation, page: $page, pageCount: 100) 
+        {  
+            ... 
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findProviderMatching {
+            metadata {
+                totalCount
+                pageCount
+                page
+            }
+            result {
+                provId
+                provName
+                tin
+                providerType {
+                    code
+                    description
+                }
+                specialty {
+                    specialtyId
+                    description
+                    atypicalIndicator
+                }
+                npi {
+                    number
+                    type
+                    effectiveDate
+                    termDate
+                    termReason
+                }
+                address {
+                    addressId
+                    type
+                    addressLine1
+                    addressLine2
+                    city
+                    county
+                    country
+                    state
+                    stateCode
+                    zipCode
+                    startDate
+                    endDate
+                }
+                locations {
+                    locationId
+                    startDate
+                    endDate
+                    provId
+                    pracIds
+                    affiliations {
+                        affiliationNumber
+                        startDate
+                        endDate
+                        businessUnit
+                        providerID
+                    }
+                    advancedMedicalHomeTier {
+                        effectiveDate
+                        endDate
+                        healthPlan
+                        tier
+                        tierType
+                    }
+                    providerLocationLegacy {
+                        healthPlan
+                        identifier
+                        startDate
+                        endDate
+                    }
+                    location {
+                        status
+                        address {
+                            addressId
+                            county
+                            countyId
+                        }
+                    }
+                    providerNetworkCycle {
+                        startDate
+                        endDate
+                        network {
+                            carrier {
+                                networkId
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+## Get Provider by PPG ID and Network Code [/provRTR/v2/graph]
+
+### GET PROVIDER BY PPG ID AND NETWORK CODE [POST]
+
++ Parameters
+    + ppgId (string, required)
+    + carrierNetworkId (string, required)
+    + page (number, required)
+
++ Request
+    {
+        findProviderNetworks(ppgId: $ppgId, carrierNetworkId: $carrierNetworkId, page: $page)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findProviderNetworks {
+            metadata {
+                totalCount
+                pageCount
+                page
+            }
+            result {
+                provId
+                provName
+                providerType {
+                    code
+                    description
+                }
+                specialty {
+                    specialtyId
+                    description
+                    atypicalIndicator
+                }
+                npi {
+                    number
+                    type
+                    effectiveDate
+                    termDate
+                    termReason
+                }
+                address {
+                    addressId
+                    type
+                    addressLine1
+                    addressLine2
+                    city
+                    county
+                    country
+                    state
+                    stateCode
+                    zipCode
+                    startDate
+                    endDate
+                }
+                locations {
+                    locationId
+                    startDate
+                    endDate
+                    provId
+                    pracIds
+                    affiliations {
+                        affiliationNumber
+                        startDate
+                        endDate
+                        businessUnit
+                        providerID
+                    }
+                    location {
+                        status
+                        address {
+                            addressId
+                            county
+                            countyId
+                        }
+                    }
+                    providerNetworkCycle {
+                        startDate
+                        endDate
+                        network {
+                            carrier {
+                                networkId
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+## Get Provider Locations by TIN and Provider ID [/provRTR/v2/graph]
+
+### GET PROVIDER LOCATIONS BY TIN AND PROVIDER ID [POST]
+
++ Parameters
+    + tin (string, required)
+    + provId (string, required)
+
++ Request
+    {
+        findProviderLocationMatching(tin: $tin, provId: $provId)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findProviderLocationMatching {
+            metadata {
+                totalCount
+            }
+            result {
+                provId
+                locations {
+                    locationId
+                    startDate
+                    endDate
+                    provId
+                    pracIds
+                    affiliations {
+                        affiliationNumber
+                        startDate
+                        endDate
+                        businessUnit
+                        providerId
+                    }
+                    advancedMedicalHomeTier {
+                        effectiveDate
+                        endDate
+                        healthPlan
+                        tier
+                        tierType
+                    }
+                    providerLocationLegacy {
+                        healthPlan
+                        identifier
+                        startDate
+                        endDate
+                    }
+                    location {
+                        status
+                        address {
+                            addressId
+                            county
+                            countyId
+                        }
+                    }
+                    providerNetworkCycle {
+                        startDate
+                        endDate
+                        network {
+                            carrier {
+                                networkId
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+
+## Get Provider Locations by Provider ID and Network ID [/provRTR/v2/graph]
+
+### GET PROVIDER LOCATIONS BY PROVIDER ID AND NETWORK ID [POST]
+
++ Parameters
+    + carrierNetworkId (string, required)
+    + provID (string, required)
+
++ Request
+    {
+        findProviderNetworks(provId: $provId, carrierNetworkId: $networkId)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findProviderNetworks {
+            metadata {
+                totalCount
+            }
+            result {
+                provId
+                locations {
+                    locationId
+                    startDate
+                    endDate
+                    provId
+                    pracIds
+                    affiliations {
+                        affiliationNumber
+                        startDate
+                        endDate
+                        businessUnit
+                        providerId
+                    }
+                    advancedMedicalHomeTier {
+                        effectiveDate
+                        endDate
+                        healthPlan
+                        tier
+                        tierType
+                    }
+                    providerLocationLegacy {
+                        healthPlan
+                        identifier
+                        startDate
+                        endDate
+                    }
+                    location {
+                        status
+                        address {
+                            addressId
+                            county
+                            countyId
+                        }
+                    }
+                    providerNetworkCycle {
+                        startDate
+                        endDate
+                        network {
+                            carrier {
+                                networkId
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+## Get Provider Network ID by Tin [/provRTR/v2/graph]
+
+### GET PROVIDER NETWORK ID BY TIN [POST]
+
++ Parameters
+    + tin (string, required)
+
++ Request
+    {
+        findProviderNetworkPlans(tins: $tins)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+   
+   [
+        findProviderNetworkPlans {
+            metadata {
+                totalCount
+            }
+            result {
+                provId
+                network {
+                    carrier {
+                        networkId
+                    }
+                }
+            }
+        }
+    ]
+
+# Group AFFILIATION CALCULATION SERVICE
+
+## Get Members By Affiliation Number [/umv/v3/graphql]
+
+### GET MEMBERS BY AFFILIATION NUMBER [POST]
+
++ Parameters
+    + affiliationNumber (string, required)
+    + includeVoid (boolean, required)
+    + page (number, required)
+    + limit (number, optional)
+
++ Request
+    {
+        membersByAffiliation(affiliationNumber: $affiliationNumber, includeVoid: true, page: $page, limit: 100)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        membersByAffiliation {
+            count
+            hasNextPage
+            members {
+                id
+            }
+            
+        }
+    ]
+
+## Get Members By Business Line and Unit [/umv/v3/graphql]
+
+### GET MEMBERS BY BUSINESS LINE AND UNIT [POST]
+
++ Parameters
+    + businessLine (string, required)
+    + businessUnitCode (string, required)
+    + lastMember (string, optional)
+    + limit (number, required)
+
++ Request
+    {
+        membersByBusinessLineAndUnit(businessLine: $businessLine, businessUnitCode: $businessUnitCode, lastMember: $lastMember, limit: $limit)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        membersByBusinessLineAndUnit {
+            members {
+                id
+            }
+        }
+    ]
+
+# Group MEMBER RETRIEVAL SERVICE
+
+## Get Members By Member Document ID [/umv/v3/graphql]
+
+### GET MEMBERS BY MEMBER DOCUMENT ID [POST]
+
++ Parameters
+    + id (string, required)
+    + includeVoid (boolean, optional)
+
++ Request
+    {
+        membersById(id: $id, includeVoid: true)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        memberById {
+            id
+            businessLine
+            memberInfo {
+                businessUnit
+                businessUniteCode
+                dateOfBirth
+                dateOfDeath
+                firstName
+                lastName
+                middleName
+                suffix
+                gender 
+                memberCode
+                memberStatusCode
+                memberStatusName
+            }
+            addresses(includeVoid: false) {
+                void
+                addressType
+                addressTypeCode
+                addressLine1
+                addressLine2
+                city
+                countyCode
+                countyName
+                state 
+                stateCode
+                zipCode
+                startDate
+                endDate
+            }
+            attributes(includeVoid: false) {
+                void
+                attribute
+                customValue
+                attributeCode
+                definedValue
+                definedValueCode
+                value 
+                startDate
+                endDate
+            }
+            enrollmentSpans(includeVoid: true) {
+                void
+                benefitPackage
+                benefitPackageCode
+                effectiveDate
+                endDate
+                enrollmentType
+                enrollmentTypeCode
+                enrollmentStatus
+                enrollmentStatusCode
+                planProduct 
+                planProductCode 
+                rateCell 
+                rateCellCode 
+                subMarket 
+                subMarketCode 
+                groupProductSuffix 
+                countyOfRecord 
+                countyOfRecordCode
+            }
+            identifications(includeVoid: false) {
+                void
+                isActive 
+                businessUnit 
+                businessUnitCode 
+                identificationType 
+                identificationTypeCode 
+                identifier 
+                changedDate
+            }
+            pcps(includeVoid: false) {
+                void
+                affiliationNumber
+                pcpType 
+                pcpTypeCode 
+                porticoLocationID 
+                porticoPractitionerID 
+                porticoProviderID 
+                practitionerID 
+                providerID 
+                providerName 
+                tin 
+                startDate 
+                endDate
+            }
+        }
+    ]
+
+# Group PROVIDER PROCESSING SERVICE
+
+## Get Practitioner By ID [/provRTR/v2/graph]
+
+### GET PRACTITIONER BY ID [POST]
+
++ Parameters
+    + pracId (string, required)
+    + carrierNetworkId (string, required)
+    + page (number, required)
+    + pageCount (number, required)
+
++ Request
+    {
+        findPractitionerNetworks(pracId: $pracId, carrierNetworkId: $networkIds, page: $page, pageCount: 100)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findPractitionerNetworks {
+            metadata {
+                page
+                pageCount
+                totalCount
+            }
+            result {
+                pracId
+                PPGID
+                firstName
+                lastName
+                middleName
+                suffix
+                specialties {
+                    specialtyId
+                    specialtyName
+                    atypicalIndicator
+                    isPrimary
+                }
+                npi {
+                    number
+                    type
+                    termReason
+                    termDate 
+                    effectiveDate
+                }
+                locations {
+                    provId
+                    locationId
+                    status
+                    startDate
+                    endDate
+                    location {
+                        address {
+                            addressId
+                            county 
+                            countyId
+                        }
+                    }
+                    affiliations {
+                        affiliationNumber
+                        status
+                        startDate
+                        endDate
+                    }
+                    practitionerNetworkCycle {
+                        startDate
+                        endDate
+                        network {
+                            carrier {
+                                networkId
+                                name
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+
+## Get Practitioner By ID for Non-Migrated Members [/provRTR/v2/graph]
+
+### GET PRACTITIONER BY ID FOR NON-MIGRATED MEMBERS [POST]
+
++ Parameters
+    + pracId (string, required)
+    + carrierNetworkId (string, required)
+    + page (number, required)
+    + pageCount (number, required)
+
++ Request
+    {
+        findPractitionerNetworks(pracId: $pracId, carrierNetworkId: $networkIds, page: $page, pageCount: 100)
+        {
+            ...
+        }
+    }
+
++ Response 200 (application/json)
+
+    [
+        findPractitionerNetworks {
+            metadata {
+                page
+                pageCount
+                totalCount
+            }
+            result {
+                pracId
+                healthNetLegacyPhyId
+                PPGID
+                firstName
+                lastName
+                middleName
+                suffix
+                specialties {
+                    specialtyId
+                    specialtyName
+                    atypicalIndicator
+                    isPrimary
+                }
+                npi {
+                    number
+                    type
+                    termReason
+                    termDate 
+                    effectiveDate
+                }
+            }
+        }
+    ]
